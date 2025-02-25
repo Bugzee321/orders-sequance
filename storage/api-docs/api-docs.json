@@ -1,0 +1,283 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel API Documentation",
+        "description": "Swagger API docs for Laravel",
+        "contact": {
+            "email": "support@example.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/orders/{order}/approve": {
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Approve the given order",
+                "operationId": "b93adf42430bad2025b887eefd889b15",
+                "parameters": [
+                    {
+                        "name": "order",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order approved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Order approved successfully"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Order does not need approval",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Order does not need approval"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get all orders",
+                "operationId": "a1d37fa6409b3cc2c4e5af6a9e70c739",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/OrderResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Create an order",
+                "operationId": "7e8bde93d484a12095ed134b1c99e8db",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOrderRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrderResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "tags": [
+                    "Orders"
+                ],
+                "summary": "Get an order by ID",
+                "operationId": "13d8f198ad57c13b09f4d158a4a24141",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "order": {
+                                                    "$ref": "#/components/schemas/OrderResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CreateOrderRequest": {
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "product_name": {
+                                    "type": "string",
+                                    "example": "Sample Product"
+                                },
+                                "quantity": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "unit_price": {
+                                    "type": "number",
+                                    "format": "float",
+                                    "example": 9.99
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "OrderHistoryResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "order_id": {
+                        "type": "integer"
+                    },
+                    "old_status": {
+                        "type": "string"
+                    },
+                    "new_status": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "OrderItemResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "product_name": {
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "type": "integer"
+                    },
+                    "unit_price": {
+                        "type": "number"
+                    }
+                },
+                "type": "object"
+            },
+            "OrderResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "order_number": {
+                        "type": "string"
+                    },
+                    "total": {
+                        "type": "number"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItemResource"
+                        }
+                    },
+                    "history": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderHistoryResource"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Orders",
+            "description": "Orders"
+        }
+    ]
+}
